@@ -422,6 +422,86 @@
     .diff-hard { background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; }
     .diff-ext { background: rgba(165, 94, 234, 0.2); color: #a55eea; border: 1px solid #a55eea; }
 
+    /* Список версий */
+    .versions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .version-card {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 15px;
+    }
+
+    .version-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .version-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .version-badge-old {
+      background: #718093;
+      color: #fff;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .version-badge-current {
+      background: #2ed573;
+      color: #0d0e15;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .version-badge-soon {
+      background: #ffa502;
+      color: #0d0e15;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .version-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .version-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .version-changelog {
+      margin-top: 8px;
+      padding-left: 16px;
+      font-size: 0.8rem;
+      color: #00d2d3;
+    }
+
+    .version-changelog li {
+      margin-bottom: 4px;
+    }
+
     /* Сетка скриншотов */
     .screenshots-grid {
       display: grid;
@@ -665,6 +745,42 @@
       transform: scale(0.98);
     }
 
+    /* Селектор выбора версии в модалке */
+    .version-selector-container {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .version-selector-container label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .version-select {
+      width: 100%;
+      background: #0d0e15;
+      color: #fff;
+      border: 1px solid var(--border-color);
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: 'Rubik', sans-serif;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Контейнеры блоков версий внутри модалки */
+    .version-download-box {
+      display: none;
+      text-align: left;
+    }
+
+    .version-download-box.active-version {
+      display: block;
+    }
+
     /* Карточки платформ */
     .download-card {
       background: #0d0e15;
@@ -674,7 +790,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-top: 10px;
       flex-wrap: wrap;
       gap: 10px;
     }
@@ -900,7 +1016,7 @@
     </div>
     <div class="header-right">
       <button class="theme-toggle-btn" id="theme-toggle-btn">🩸 Хоррор</button>
-      <div class="beta-tag">3D v0.1</div>
+      <div class="beta-tag">3D v1.1</div>
     </div>
   </header>
 
@@ -919,6 +1035,52 @@
         <button class="btn-main" id="open-download-btn">СКАЧАТЬ БЕТУ</button>
         <button class="btn-main btn-secondary" id="open-help-btn">КАК ИГРАТЬ</button>
         <button class="btn-main btn-share" id="share-btn">ПОДЕЛИТЬСЯ</button>
+      </div>
+    </div>
+
+    <!-- Секция: ИСТОРИЯ БЕТА-ВЕРСИЙ -->
+    <div class="section">
+      <h2>ИСТОРИЯ БЕТА-ВЕРСИЙ</h2>
+      <p>Здесь можно посмотреть все вышедшие и будущие сборки игры:</p>
+      
+      <div class="versions-list">
+        <!-- Версия 1.0 (Устаревшая) -->
+        <div class="version-card" style="opacity: 0.75;">
+          <div class="version-header">
+            <div class="version-title">
+              Бэта v1.0 <span class="version-badge-old">УСТАРЕЛА</span>
+            </div>
+            <div class="version-date">Прошедшая</div>
+          </div>
+          <p class="version-desc">Первый публичный релиз. Больше не поддерживается для скачивания.</p>
+        </div>
+
+        <!-- Версия 1.1 (Текущая доступная с описанием нового) -->
+        <div class="version-card">
+          <div class="version-header">
+            <div class="version-title">
+              Бэта v1.1 <span class="version-badge-current">НОВЫЙ</span>
+            </div>
+            <div class="version-date">Ноябрь 2026</div>
+          </div>
+          <p class="version-desc">Актуальная версия для ПК. Главные нововведения сборки:</p>
+          <ul class="version-changelog">
+            <li>🚨 Добавлены детализированные текстуры Сиреноголового</li>
+            <li>🏆 Внедрена система внутриигровых достижений</li>
+            <li>🛠️ Оптимизирован запуск и стабильность через два файла (Game + Game.console)</li>
+          </ul>
+        </div>
+
+        <!-- Версии 1.2 - 1.5 (В разработке) -->
+        <div class="version-card" style="opacity: 0.85;">
+          <div class="version-header">
+            <div class="version-title">
+              Бэта v1.2 — v1.5 <span class="version-badge-soon">В РАЗРАБОТКЕ</span>
+            </div>
+            <div class="version-date">Скоро</div>
+          </div>
+          <p class="version-desc">Будущие обновления с новыми актами, умным ИИ, режимами сложности и улучшениями.</p>
+        </div>
       </div>
     </div>
 
@@ -1075,62 +1237,118 @@
     </div>
   </div>
 
-  <!-- МОДАЛЬНОЕ ОКНО: СКАЧАТЬ -->
+  <!-- МОДАЛЬНОЕ ОКНО: СКАЧАТЬ С ВЫБОРОМ ВЕРСИЙ -->
   <div class="modal" id="download-modal">
     <div class="modal-content">
       <button class="close-btn" id="close-download-btn">✖</button>
-      <div class="modal-title">📦 Скачать Бета-версию</div>
-      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Выберите вашу платформу:</p>
+      <div class="modal-title">📦 Выбор версии для скачивания</div>
       
-      <!-- Windows / ПК (2 файла) -->
-      <div class="download-card">
-        <div class="platform-left">
-          <div class="platform-icon">💻</div>
-          <div class="download-info">
-            <h4>Windows (ПК)</h4>
-            <p>Скачайте 2 файла в папку Game</p>
+      <!-- Селектор выбора версии -->
+      <div class="version-selector-container">
+        <label for="version-select-box">Выберите версию игры:</label>
+        <select id="version-select-box" class="version-select">
+          <option value="v10">Бета v1.0 (Устаревшая - Недоступна)</option>
+          <option value="v11">Бета v1.1 (НОВЫЙ - Доступна для скачивания)</option>
+          <option value="v12">Бета v1.2 (В разработке)</option>
+          <option value="v13">Бета v1.3 (В разработке)</option>
+          <option value="v14">Бета v1.4 (В разработке)</option>
+          <option value="v15">Бета v1.5 (В разработке)</option>
+        </select>
+      </div>
+
+      <!-- ВЕРСИЯ 1.0 (Закрыта по умолчанию) -->
+      <div id="box-v10" class="version-download-box active-version">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Эта версия больше недоступна для скачивания:</p>
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">❌</div>
+            <div class="download-info">
+              <h4>Бета v1.0</h4>
+              <p>Архив (Закрыто)</p>
+            </div>
           </div>
-        </div>
-        <div class="dl-buttons-group">
-          <a href="https://drive.google.com/file/d/1kBm1MnG-GWfLaF3xkhEYb_jPPfpRVowE/view?usp=drive_link" target="_blank" class="btn-dl">Файл 1 (Console)</a>
-          <a href="https://drive.google.com/file/d/1kBm1MnG-GWfLaF3xkhEYb_jPPfpRVowE/view?usp=drive_link" target="_blank" class="btn-dl">Файл 2 (Game.exe)</a>
+          <button class="btn-dl btn-soon trigger-soon" data-platform="Бета v1.0">Недоступно</button>
         </div>
       </div>
 
-      <!-- Android -->
-      <div class="download-card">
-        <div class="platform-left">
-          <div class="platform-icon">🤖</div>
-          <div class="download-info">
-            <h4>Android</h4>
-            <p>Скоро появится</p>
+      <!-- ВЕРСИЯ 1.1 (НОВЫЙ - Доступна для скачивания с раздельными ссылками) -->
+      <div id="box-v11" class="version-download-box">
+        <p style="font-size: 0.81rem; color: #00d2d3; margin-bottom: 6px; font-weight: 600;">✨ Что нового в v1.1:</p>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">Добавлены текстуры Сиреноголового и система достижений.</p>
+        
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">💻</div>
+            <div class="download-info">
+              <h4>Windows (v1.1 НОВЫЙ)</h4>
+              <p>Требуется 2 файла</p>
+            </div>
+          </div>
+          <div class="dl-buttons-group">
+            <a href="https://drive.google.com/file/d/1kBm1MnG-GWfLaF3xkhEYb_jPPfpRVowE/view?usp=sharing" target="_blank" class="btn-dl">Файл 1 (Console)</a>
+            <a href="https://drive.google.com/file/d/12pyq3UE03sKztyE4-BPFY5gLCdsSNccN/view?usp=sharing" target="_blank" class="btn-dl">Файл 2 (Game.exe)</a>
           </div>
         </div>
-        <button class="btn-dl btn-soon trigger-soon" data-platform="Android">Скоро</button>
       </div>
 
-      <!-- iOS -->
-      <div class="download-card">
-        <div class="platform-left">
-          <div class="platform-icon">🍏</div>
-          <div class="download-info">
-            <h4>iOS (iPhone)</h4>
-            <p>Скоро появится</p>
+      <!-- ВЕРСИЯ 1.2 -->
+      <div id="box-v12" class="version-download-box">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Версия в разработке:</p>
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">🚀</div>
+            <div class="download-info">
+              <h4>Бета v1.2</h4>
+              <p>Скоро появится</p>
+            </div>
           </div>
+          <button class="btn-dl btn-soon trigger-soon" data-platform="Бета v1.2">Скоро</button>
         </div>
-        <button class="btn-dl btn-soon trigger-soon" data-platform="iOS (iPhone)">Скоро</button>
       </div>
 
-      <!-- macOS -->
-      <div class="download-card">
-        <div class="platform-left">
-          <div class="platform-icon">🖥️</div>
-          <div class="download-info">
-            <h4>macOS</h4>
-            <p>Скоро появится</p>
+      <!-- ВЕРСИЯ 1.3 -->
+      <div id="box-v13" class="version-download-box">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Версия в разработке:</p>
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">🚀</div>
+            <div class="download-info">
+              <h4>Бета v1.3</h4>
+              <p>Скоро появится</p>
+            </div>
           </div>
+          <button class="btn-dl btn-soon trigger-soon" data-platform="Бета v1.3">Скоро</button>
         </div>
-        <button class="btn-dl btn-soon trigger-soon" data-platform="macOS">Скоро</button>
+      </div>
+
+      <!-- ВЕРСИЯ 1.4 -->
+      <div id="box-v14" class="version-download-box">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Версия в разработке:</p>
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">🚀</div>
+            <div class="download-info">
+              <h4>Бета v1.4</h4>
+              <p>Скоро появится</p>
+            </div>
+          </div>
+          <button class="btn-dl btn-soon trigger-soon" data-platform="Бета v1.4">Скоро</button>
+        </div>
+      </div>
+
+      <!-- ВЕРСИЯ 1.5 -->
+      <div id="box-v15" class="version-download-box">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Версия в разработке:</p>
+        <div class="download-card">
+          <div class="platform-left">
+            <div class="platform-icon">🚀</div>
+            <div class="download-info">
+              <h4>Бета v1.5</h4>
+              <p>Скоро появится</p>
+            </div>
+          </div>
+          <button class="btn-dl btn-soon trigger-soon" data-platform="Бета v1.5">Скоро</button>
+        </div>
       </div>
 
     </div>
@@ -1155,17 +1373,16 @@
         <h3>2. Управление в игре</h3>
         <ul>
           <li><b>На ПК:</b> Используйте клавиши <b>W, A, S, D</b> для перемещения и мышь для обзора.</li>
-          <li><b>На телефонах:</b> Мобильная версия появится в следующих обновлениях!</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- ОКНО УВЕДОМЛЕНИЯ ДЛЯ МОБИЛЬНЫХ ВЕРСИЙ -->
+  <!-- ОКНО УВЕДОМЛЕНИЯ -->
   <div class="error-popup" id="error-popup">
     <div class="error-content">
-      <h3>📱 СКОРО НА МОБИЛЬНЫХ!</h3>
-      <p id="soon-text">Версия для этой платформы находится в разработке. Сейчас игра доступна только на ПК (Windows)!</p>
+      <h3>⏳ ВНИМАНИЕ!</h3>
+      <p id="soon-text">Эта версия пока недоступна для скачивания!</p>
       <button class="btn-error-close" id="close-error-btn">ПОНЯТНО</button>
     </div>
   </div>
@@ -1189,12 +1406,10 @@
       } catch(e) {}
     }
 
-    // Привязываем звук ко всем кнопкам на сайте
     document.querySelectorAll('button, a').forEach(el => {
       el.addEventListener('click', playClickSound);
     });
 
-    // Скрываем экран загрузки
     window.addEventListener('load', () => {
       setTimeout(() => {
         const loader = document.getElementById('loader-screen');
@@ -1210,6 +1425,28 @@
     const easterEggModal = document.getElementById('easter-egg-modal');
     const toast = document.getElementById('toast');
 
+    // Переключение версий в окне скачивания
+    const versionSelectBox = document.getElementById('version-select-box');
+    const boxes = {
+      'v10': document.getElementById('box-v10'),
+      'v11': document.getElementById('box-v11'),
+      'v12': document.getElementById('box-v12'),
+      'v13': document.getElementById('box-v13'),
+      'v14': document.getElementById('box-v14'),
+      'v15': document.getElementById('box-v15')
+    };
+
+    versionSelectBox.onchange = (e) => {
+      const selected = e.target.value;
+      for (let key in boxes) {
+        if (key === selected) {
+          boxes[key].classList.add('active-version');
+        } else {
+          boxes[key].classList.remove('active-version');
+        }
+      }
+    };
+
     // Переключение тем (Неон / Хоррор)
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     themeToggleBtn.onclick = () => {
@@ -1221,14 +1458,12 @@
       }
     };
 
-    // Пасхалка по клику на аватарки
     const triggerEasterEgg = () => easterEggModal.classList.add('active');
     document.getElementById('easter-egg-main').onclick = triggerEasterEgg;
     document.getElementById('easter-egg-mini').onclick = triggerEasterEgg;
     document.getElementById('close-easter-egg').onclick = () => easterEggModal.classList.remove('active');
     document.getElementById('easter-egg-ok').onclick = () => easterEggModal.classList.remove('active');
 
-    // Кнопка Поделиться
     document.getElementById('share-btn').onclick = () => {
       if (navigator.share) {
         navigator.share({
@@ -1243,35 +1478,33 @@
       }
     };
 
-    // Открытие окна Beta (?)
     document.getElementById('open-beta-info-btn').onclick = () => betaInfoModal.classList.add('active');
     document.getElementById('close-beta-info-btn').onclick = () => betaInfoModal.classList.remove('active');
 
-    // Кнопки открытия
     document.getElementById('open-download-btn').onclick = () => downloadModal.classList.add('active');
     document.getElementById('open-help-btn').onclick = () => helpModal.classList.add('active');
 
-    // Кнопки закрытия модалок
     document.getElementById('close-download-btn').onclick = () => downloadModal.classList.remove('active');
     document.getElementById('close-help-btn').onclick = () => helpModal.classList.remove('active');
 
-    // Сообщение для недоступных платформ
     const soonButtons = document.querySelectorAll('.trigger-soon');
     soonButtons.forEach(btn => {
       btn.onclick = () => {
-        const platform = btn.getAttribute('data-platform');
-        soonText.textContent = `Версия для ${platform} сейчас находится в разработке. Сыграть можно на ПК (Windows)!`;
+        const plat = btn.getAttribute('data-platform');
+        if (plat === 'Бета v1.0') {
+          soonText.textContent = `Версия v1.0 больше не поддерживается и закрыта для скачивания!`;
+        } else {
+          soonText.textContent = `${plat} находится в разработке и скоро появится!`;
+        }
         downloadModal.classList.remove('active');
         errorPopup.classList.add('active');
       };
     });
 
-    // Закрытие информационного окна
     document.getElementById('close-error-btn').onclick = () => {
       errorPopup.classList.remove('active');
     };
 
-    // Закрытие кликом по темному фону
     window.onclick = (e) => {
       if (e.target === easterEggModal) easterEggModal.classList.remove('active');
       if (e.target === betaInfoModal) betaInfoModal.classList.remove('active');
