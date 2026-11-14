@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Побег от kot_lgromanchik2610 3D — [BETA]</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;600;800&display=swap');
+
+    :root {
+      --bg-color: #0d0e15;
+      --card-bg: #161824;
+      --accent: #ff4757;
+      --accent-hover: #ff6b81;
+      --text-main: #ffffff;
+      --text-muted: #a4b0be;
+      --border-color: #2f3542;
+      --header-grad-1: #161824;
+      --header-grad-2: #2a1b40;
+    }
+
+    /* Хоррор-тема */
+    body.horror-theme {
+      --bg-color: #080202;
+      --card-bg: #140505;
+      --accent: #ff0000;
+      --accent-hover: #ff3333;
+      --border-color: #4a0d0d;
+      --header-grad-1: #140505;
+      --header-grad-2: #380404;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Rubik', sans-serif;
+      transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      padding-bottom: 40px;
+    }
+
+    /* ЭКРАН ЗАГРУЗКИ (Splash Screen) */
+    #loader-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #loader-screen.fade-out {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 25px var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .loader-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .loader-text {
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .loader-bar-container {
+      width: 180px;
+      height: 6px;
+      background: #1f2232;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .loader-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff4757, #ffa502);
+      border-radius: 3px;
+      animation: progressAnim 1.2s ease forwards;
+    }
+
+    @keyframes progressAnim {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+
+    /* Шапка сайта */
+    header {
+      background: linear-gradient(135deg, var(--header-grad-1), var(--header-grad-2));
+      padding: 16px 15px;
+      border-bottom: 3px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid #00d2d3;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .header-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .logo {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.72rem;
+      color: #00d2d3;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0px #000;
+      line-height: 1.2;
+    }
+
+    .beta-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0;
+      margin-top: 2px;
+      transition: color 0.2s;
+    }
+
+    .beta-trigger:hover {
+      color: #ffffff;
+    }
+
+    .q-circle {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      font-size: 0.65rem;
+      font-weight: 800;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .theme-toggle-btn {
+      background: #2f3542;
+      color: white;
+      border: 1px solid var(--border-color);
+      font-size: 0.65rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .theme-toggle-btn:hover {
+      background: var(--accent);
+    }
+
+    .beta-tag {
+      background-color: var(--accent);
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.55rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+    }
+
+    /* Главный контейнер */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 15px;
+    }
+
+    /* Главный блок (Hero) */
+    .hero {
+      text-align: center;
+      padding: 35px 15px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      margin-top: 20px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .hero h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+      color: #ff9ff3;
+      text-shadow: 2px 2px 0px #000;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 25px;
+    }
+
+    .avatar-box {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 20px;
+      background: linear-gradient(45deg, #ff4757, #54a0ff);
+      border-radius: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 4px solid #fff;
+      box-shadow: 0 0 25px rgba(255, 71, 87, 0.5);
+      overflow: hidden;
+      padding: 0;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .avatar-box:hover {
+      transform: scale(1.03);
+    }
+
+    .avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Меню с кнопками */
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-main {
+      display: inline-block;
+      background-color: var(--accent);
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      padding: 14px 20px;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: all 0.2s;
+      box-shadow: 0 6px 0px #b2bec3;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-main:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0px #b2bec3;
+    }
+
+    .btn-secondary {
+      background-color: #2f3542;
+      box-shadow: 0 6px 0px #1e222b;
+    }
+
+    .btn-share {
+      background-color: #00d2d3;
+      color: #0d0e15;
+      box-shadow: 0 6px 0px #019091;
+    }
+
+    /* Секции с контентом */
+    .section {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 20px;
+      border: 2px solid var(--border-color);
+    }
+
+    .section h2 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.85rem;
+      margin-bottom: 15px;
+      color: #54a0ff;
+      line-height: 1.4;
+    }
+
+    .section p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    /* Фрейм будущих обновий */
+    .update-frame {
+      background: linear-gradient(145deg, #161824, #1e162b);
+      border: 2px solid #00d2d3;
+      box-shadow: 0 0 20px rgba(0, 210, 211, 0.15);
+      position: relative;
+    }
+
+    .update-badge {
+      display: inline-block;
+      background: #00d2d3;
+      color: #0d0e15;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.55rem;
+      padding: 5px 10px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .feature-item {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid #00d2d3;
+      padding: 12px 14px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .feature-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .feature-text h4 {
+      font-size: 0.9rem;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .feature-text p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .diff-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .diff-tag {
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .diff-easy { background: rgba(46, 213, 115, 0.2); color: #2ed573; border: 1px solid #2ed573; }
+    .diff-norm { background: rgba(255, 165, 2, 0.2); color: #ffa502; border: 1px solid #ffa502; }
+    .diff-hard { background: rgba(255, 71, 87, 0.2); color: #ff4757; border: 1px solid #ff4757; }
+    .diff-ext { background: rgba(165, 94, 234, 0.2); color: #a55eea; border: 1px solid #a55eea; }
+
+    /* Сетка скриншотов */
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .screenshot-card {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .screenshot-card .shot-title {
+      padding: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Блок отзывов */
+    .reviews-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .review-card {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      padding: 14px 16px;
+      border-radius: 12px;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .review-author {
+      font-size: 0.88rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .review-stars {
+      color: #f1c40f;
+      font-size: 0.8rem;
+    }
+
+    .review-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Блоки авторов */
+    .authors-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .author-card {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      padding: 14px 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-icon {
+      font-size: 24px;
+      width: 40px;
+      height: 40px;
+      background: #1f2232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: 0;
+    }
+
+    .author-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .author-info h4 {
+      font-size: 0.92rem;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .author-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* МОДАЛЬНЫЕ ОКНА */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(13, 14, 21, 0.88);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 15px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 550px;
+      border-radius: 20px;
+      border: 2px solid var(--accent);
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(255, 71, 87, 0.3);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: #2f3542;
+      color: white;
+      border: none;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover {
+      background: var(--accent);
+    }
+
+    .modal-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.85rem;
+      color: #ff9ff3;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .beta-modal-box {
+      background: #1c1e2b;
+      border: 1px solid #3c4257;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      max-width: 440px;
+      padding: 28px 22px;
+    }
+
+    .beta-modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffd369;
+      margin-bottom: 18px;
+      line-height: 1.3;
+      padding: 0 20px;
+    }
+
+    .beta-bullets {
+      text-align: left;
+      padding-left: 20px;
+      margin-bottom: 24px;
+      color: #d1d8e0;
+      font-size: 0.92rem;
+    }
+
+    .beta-bullets li {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .btn-beta-support {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      color: #161824;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: transform 0.15s, opacity 0.2s;
+    }
+
+    .btn-beta-support:active {
+      transform: scale(0.98);
+    }
+
+    /* Карточки платформ */
+    .download-card {
+      background: #0d0e15;
+      border: 1px solid var(--border-color);
+      padding: 14px 16px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .platform-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .platform-icon {
+      font-size: 26px;
+      width: 42px;
+      height: 42px;
+      background: #1f2232;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .download-info h4 {
+      font-size: 0.92rem;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .download-info p {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    .btn-dl {
+      background-color: #2ed573;
+      color: #fff;
+      padding: 9px 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background 0.2s;
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-dl:hover {
+      background-color: #26af5f;
+    }
+
+    /* Окно ошибки */
+    .error-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(13, 14, 21, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .error-popup.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .error-content {
+      background: #161824;
+      border: 2px solid var(--accent);
+      padding: 30px 20px;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
+    }
+
+    .error-content h3 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+
+    .error-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .btn-error-close {
+      background-color: var(--accent);
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* Уведомление о копировании */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #00d2d3;
+      color: #0d0e15;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      z-index: 3000;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Инструкция */
+    .instruction-body {
+      text-align: left;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .instruction-body h3 {
+      font-size: 0.95rem;
+      color: #54a0ff;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+
+    .instruction-body p, .instruction-body li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .instruction-body ul {
+      padding-left: 18px;
+      list-style-type: disc;
+    }
+
+    .warning-box {
+      background: rgba(255, 71, 87, 0.1);
+      border: 1px dashed var(--accent);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      color: #ff6b81;
+      font-size: 0.82rem;
+    }
+
+    /* Подвал */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ЭКРАН ЗАГРУЗКИ -->
+  <div id="loader-screen">
+    <div class="loader-logo">
+      <img src="https://i.postimg.cc/1tGGV7Br/1000056877-(1).png" alt="Logo">
+    </div>
+    <div class="loader-text">Загружаем игру...</div>
+    <div class="loader-bar-container">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <!-- Уведомление (Toast) -->
+  <div id="toast">Ссылка скопирована в буфер обмена!</div>
+
+  <!-- Шапка сайта -->
+  <header>
+    <div class="brand-block">
+      <div class="header-avatar" id="easter-egg-mini">
+        <img src="https://i.postimg.cc/1tGGV7Br/1000056877-(1).png" alt="Icon">
+      </div>
+      <div class="brand-info">
+        <div class="logo">KOT_LGROMANCHIK</div>
+        <button class="beta-trigger" id="open-beta-info-btn">
+          beta <span class="q-circle">?</span>
+        </button>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="theme-toggle-btn" id="theme-toggle-btn">🩸 Хоррор</button>
+      <div class="beta-tag">3D v0.1</div>
+    </div>
+  </header>
+
+  <div class="container">
+    
+    <!-- Главный баннер -->
+    <div class="hero">
+      <div class="avatar-box" id="easter-egg-main">
+        <img src="https://i.postimg.cc/1tGGV7Br/1000056877-(1).png" alt="kot_lgromanchik2610">
+      </div>
+      <h1>ПОБЕГ ОТ KOT_LGROMANCHIK2610 3D</h1>
+      <p>Добро пожаловать в раннюю Бета-версию!</p>
+      
+      <!-- Меню с кнопками -->
+      <div class="hero-buttons">
+        <button class="btn-main" id="open-download-btn">СКАЧАТЬ БЕТУ</button>
+        <button class="btn-main btn-secondary" id="open-help-btn">КАК ИГРАТЬ</button>
+        <button class="btn-main btn-share" id="share-btn">ПОДЕЛИТЬСЯ</button>
+      </div>
+    </div>
+
+    <!-- ФРЕЙМ: ЧТО БУДЕТ В БУДУЩЕМ ОБНОВЛЕНИИ -->
+    <div class="section update-frame">
+      <div class="update-badge">🔥 СКОРО В ОБНОВЛЕНИИ</div>
+      <h2 style="color: #00d2d3;">ЧТО БУДЕТ В БУДУЩЕЙ ОБНОВЕ</h2>
+      <p>Готовим масштабное обновление с кучей нового контента:</p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-icon">🎬</div>
+          <div class="feature-text">
+            <h4>Больше 30+ Актов</h4>
+            <p>Огромная сюжетная кампания с новыми комнатами, головоломками и ловушками.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-text">
+            <h4>Режимы сложности</h4>
+            <p>Выбирай свой стиль прохождения от спокойного до настоящего хардкора:</p>
+            <div class="diff-tags">
+              <span class="diff-tag diff-easy">ИЗИ</span>
+              <span class="diff-tag diff-norm">НОРМАЛ</span>
+              <span class="diff-tag diff-hard">ХАРД</span>
+              <span class="diff-tag diff-ext">ЭКСТРИМ</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">👁️</div>
+          <div class="feature-text">
+            <h4>Умный ИИ kot_lgromanchik2610</h4>
+            <p>Кот будет слышать шаги, проверять шкафы и устраивать засады.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🗝️</div>
+          <div class="feature-text">
+            <h4>Секретные концовки и пасхалки</h4>
+            <p>Несколько вариантов побега, тайные комнаты и скрытые предметы.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Секция: СКРИНШОТЫ ИЗ ИГРЫ -->
+    <div class="section">
+      <h2>СКРИНШОТЫ ИЗ ИГРЫ</h2>
+      <p>Взгляните на кадры из игрового процесса:</p>
+      
+      <div class="screenshots-grid">
+        <!-- Скриншот 1 -->
+        <div class="screenshot-card">
+          <img src="https://i.postimg.cc/cCh3NZpk/IMG-20261113-223434-874.jpg" alt="Игровой процесс - Спальня">
+          <div class="shot-title">Комната с кроватью и неоном</div>
+        </div>
+
+        <!-- Скриншот 2 -->
+        <div class="screenshot-card">
+          <img src="https://i.postimg.cc/wM2NdHCG/IMG-20261113-223433-939.jpg" alt="Игровой процесс - Игровая зона">
+          <div class="shot-title">Игровая зона с мониторами</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Секция: ОТЗЫВЫ ИГРОКОВ -->
+    <div class="section">
+      <h2>ОТЗЫВЫ ТЕСТЕРОВ</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-author">Мафака Rbx (Соавтор)</span>
+            <span class="review-stars">⭐⭐⭐⭐⭐</span>
+          </div>
+          <p>«Отличный старт проекта! Комнаты и неоновая подсветка выглядят очень атмосферно. Ждём полную версию с актами.»</p>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <span class="review-author">Первый Тестер</span>
+            <span class="review-stars">⭐⭐⭐⭐⭐</span>
+          </div>
+          <p>«Бету пощупал, дизайн сайта топ. Желаю удачи в разработке и жду умного кота в обнове!»</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Секция: Авторы игры -->
+    <div class="section">
+      <h2>АВТОРЫ ИГРЫ</h2>
+      <div class="authors-grid">
+        <div class="author-card">
+          <div class="author-icon">👑</div>
+          <div class="author-info">
+            <h4>kot_lgromanchik2610</h4>
+            <p>Главный разработчик / Создатель игры</p>
+          </div>
+        </div>
+        <div class="author-card">
+          <div class="author-icon">
+            <img src="https://i.postimg.cc/8zJbLf80/IMG-20261113-225011-820.jpg" alt="Мафака Rbx">
+          </div>
+          <div class="author-info">
+            <h4>Мафака Rbx</h4>
+            <p>Соавтор / Помощник по проекту</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Секция: О проекте -->
+    <div class="section">
+      <h2>О ПРОЕКТЕ</h2>
+      <p>
+        Официальный сайт 3D игры <b>«Побег от kot_lgromanchik2610»</b>. Следи за выходом новых билдов!
+      </p>
+    </div>
+
+    <footer>
+      &copy; 2026 kot_lgromanchik2610 3D Project. All rights reserved.
+    </footer>
+
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: ПАСХАЛКА -->
+  <div class="modal" id="easter-egg-modal">
+    <div class="modal-content beta-modal-box" style="border-color: #00d2d3;">
+      <button class="close-btn" id="close-easter-egg">✕</button>
+      <div class="beta-modal-title" style="color: #00d2d3;">🐾 Мяу! Секрет найден!</div>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+        Ты кликнул на аватарку главного разработчика <b>kot_lgromanchik2610</b>! Кот следит за каждым твоим шагом в игре... Сможешь ли ты сбежать? 😉
+      </p>
+      <button class="btn-beta-support" id="easter-egg-ok" style="background: #00d2d3; color: #0d0e15;">Продолжить побег</button>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: БЕТА ВЕРСИЯ -->
+  <div class="modal" id="beta-info-modal">
+    <div class="modal-content beta-modal-box">
+      <button class="close-btn" id="close-beta-info-btn">✕</button>
+      <div class="beta-modal-title">Бета версия нового сайта и игры</div>
+      
+      <ul class="beta-bullets">
+        <li>Нашли баг или есть крутая идея? Напишите нам — вы поможете сделать игру и сайт намного лучше.</li>
+        <li>За полезную помощь добавляем в список тестеров, выдаём бонусы в будущих обновлениях или секретные промокоды.</li>
+        <li>Награда зависит от серьёзности найденной ошибки или пользы вашего предложения.</li>
+      </ul>
+
+      <a href="https://t.me/kot_lgromanchik2610" target="_blank" class="btn-beta-support">Написать в поддержку</a>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: СКАЧАТЬ -->
+  <div class="modal" id="download-modal">
+    <div class="modal-content">
+      <button class="close-btn" id="close-download-btn">✖</button>
+      <div class="modal-title">📦 Скачать Бета-версию</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Выберите вашу платформу:</p>
+      
+      <!-- Windows / ПК -->
+      <div class="download-card">
+        <div class="platform-left">
+          <div class="platform-icon">💻</div>
+          <div class="download-info">
+            <h4>Windows (ПК)</h4>
+            <p>Сборка v0.1</p>
+          </div>
+        </div>
+        <button class="btn-dl trigger-error">Скачать</button>
+      </div>
+
+      <!-- Android -->
+      <div class="download-card">
+        <div class="platform-left">
+          <div class="platform-icon">🤖</div>
+          <div class="download-info">
+            <h4>Android</h4>
+            <p>Мобильная версия</p>
+          </div>
+        </div>
+        <button class="btn-dl trigger-error">Скачать</button>
+      </div>
+
+      <!-- iOS -->
+      <div class="download-card">
+        <div class="platform-left">
+          <div class="platform-icon">🍏</div>
+          <div class="download-info">
+            <h4>iOS (iPhone)</h4>
+            <p>Мобильная версия</p>
+          </div>
+        </div>
+        <button class="btn-dl trigger-error">Скачать</button>
+      </div>
+
+      <!-- macOS -->
+      <div class="download-card">
+        <div class="platform-left">
+          <div class="platform-icon">🖥️</div>
+          <div class="download-info">
+            <h4>macOS</h4>
+            <p>Версия для Mac</p>
+          </div>
+        </div>
+        <button class="btn-dl trigger-error">Скачать</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО: КАК ИГРАТЬ -->
+  <div class="modal" id="help-modal">
+    <div class="modal-content">
+      <button class="close-btn" id="close-help-btn">✖</button>
+      <div class="modal-title">📖 Как играть</div>
+      
+      <div class="instruction-body">
+        <h3>1. Как скачать игру?</h3>
+        <p>Нажмите кнопку <b>«Скачать бету»</b> на главном экране сайта и выберите свою платформу.</p>
+        
+        <div class="warning-box">
+          ⚠️ <b>Предупреждение:</b> Если при скачивании появится ошибка, попробуйте позже или выберите другую платформу.
+        </div>
+
+        <h3>2. Управление в игре</h3>
+        <ul>
+          <li><b>На ПК:</b> Найдите главный файл <b>Tedt Game.console.exe</b> и запустите его. Используйте клавиши <b>W, A, S, D</b> для перемещения и мышь для обзора.</li>
+          <li><b>На телефонах / планшетах:</b> Используйте сенсорное управление на экране.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ОКНО ОШИБКИ ПРИ НАЖАТИИ СКАЧАТЬ -->
+  <div class="error-popup" id="error-popup">
+    <div class="error-content">
+      <h3>⚠️ ОШИБКА СКАЧИВАНИЯ</h3>
+      <p>Не удалось скачать файл! Сервер временно недоступен или файл находится на обслуживании. Попробуйте позже.</p>
+      <button class="btn-error-close" id="close-error-btn">ОК</button>
+    </div>
+  </div>
+
+  <script>
+    // Генератор звука клика (Web Audio API)
+    function playClickSound() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.05);
+      } catch(e) {}
+    }
+
+    // Привязываем звук ко всем кнопкам на сайте
+    document.querySelectorAll('button, a').forEach(el => {
+      el.addEventListener('click', playClickSound);
+    });
+
+    // Скрываем экран загрузки
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader-screen');
+        loader.classList.add('fade-out');
+      }, 1000);
+    });
+
+    const betaInfoModal = document.getElementById('beta-info-modal');
+    const downloadModal = document.getElementById('download-modal');
+    const helpModal = document.getElementById('help-modal');
+    const errorPopup = document.getElementById('error-popup');
+    const easterEggModal = document.getElementById('easter-egg-modal');
+    const toast = document.getElementById('toast');
+
+    // Переключение тем (Неон / Хоррор)
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    themeToggleBtn.onclick = () => {
+      document.body.classList.toggle('horror-theme');
+      if (document.body.classList.contains('horror-theme')) {
+        themeToggleBtn.textContent = '🌙 Неон';
+      } else {
+        themeToggleBtn.textContent = '🩸 Хоррор';
+      }
+    };
+
+    // Пасхалка по клику на аватарки
+    const triggerEasterEgg = () => easterEggModal.classList.add('active');
+    document.getElementById('easter-egg-main').onclick = triggerEasterEgg;
+    document.getElementById('easter-egg-mini').onclick = triggerEasterEgg;
+    document.getElementById('close-easter-egg').onclick = () => easterEggModal.classList.remove('active');
+    document.getElementById('easter-egg-ok').onclick = () => easterEggModal.classList.remove('active');
+
+    // Кнопка Поделиться
+    document.getElementById('share-btn').onclick = () => {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Побег от kot_lgromanchik2610 3D',
+          text: 'Сыграй в крутую 3D бету!',
+          url: window.location.href,
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+      }
+    };
+
+    // Открытие окна Beta (?)
+    document.getElementById('open-beta-info-btn').onclick = () => betaInfoModal.classList.add('active');
+    document.getElementById('close-beta-info-btn').onclick = () => betaInfoModal.classList.remove('active');
+
+    // Кнопки открытия
+    document.getElementById('open-download-btn').onclick = () => downloadModal.classList.add('active');
+    document.getElementById('open-help-btn').onclick = () => helpModal.classList.add('active');
+
+    // Кнопки закрытия модалок
+    document.getElementById('close-download-btn').onclick = () => downloadModal.classList.remove('active');
+    document.getElementById('close-help-btn').onclick = () => helpModal.classList.remove('active');
+
+    // Вызов ошибки при нажатии на любую кнопку "Скачать"
+    const triggerButtons = document.querySelectorAll('.trigger-error');
+    triggerButtons.forEach(btn => {
+      btn.onclick = () => {
+        downloadModal.classList.remove('active');
+        errorPopup.classList.add('active');
+      };
+    });
+
+    // Закрытие окна ошибки
+    document.getElementById('close-error-btn').onclick = () => {
+      errorPopup.classList.remove('active');
+    };
+
+    // Закрытие кликом по темному фону
+    window.onclick = (e) => {
+      if (e.target === easterEggModal) easterEggModal.classList.remove('active');
+      if (e.target === betaInfoModal) betaInfoModal.classList.remove('active');
+      if (e.target === downloadModal) downloadModal.classList.remove('active');
+      if (e.target === helpModal) helpModal.classList.remove('active');
+      if (e.target === errorPopup) errorPopup.classList.remove('active');
+    };
+  </script>
+
+</body>
+</html>
