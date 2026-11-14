@@ -675,6 +675,8 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
     .platform-left {
@@ -708,24 +710,42 @@
       margin: 0;
     }
 
+    .dl-buttons-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
     .btn-dl {
       background-color: #2ed573;
       color: #fff;
-      padding: 9px 15px;
-      font-size: 0.8rem;
+      padding: 8px 12px;
+      font-size: 0.75rem;
       font-weight: bold;
       border-radius: 8px;
       transition: background 0.2s;
       white-space: nowrap;
       border: none;
       cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .btn-dl:hover {
       background-color: #26af5f;
     }
 
-    /* Окно ошибки */
+    .btn-soon {
+      background-color: #2f3542;
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+
+    .btn-soon:hover {
+      background-color: #2f3542;
+    }
+
+    /* Инфо-окно */
     .error-popup {
       position: fixed;
       top: 0;
@@ -750,19 +770,19 @@
 
     .error-content {
       background: #161824;
-      border: 2px solid var(--accent);
+      border: 2px solid #54a0ff;
       padding: 30px 20px;
       border-radius: 20px;
       text-align: center;
       max-width: 400px;
       width: 100%;
-      box-shadow: 0 15px 40px rgba(255, 71, 87, 0.4);
+      box-shadow: 0 15px 40px rgba(84, 160, 255, 0.2);
     }
 
     .error-content h3 {
       font-family: 'Press Start 2P', cursive;
       font-size: 0.85rem;
-      color: var(--accent);
+      color: #54a0ff;
       margin-bottom: 15px;
     }
 
@@ -773,14 +793,15 @@
     }
 
     .btn-error-close {
-      background-color: var(--accent);
-      color: white;
+      background-color: #54a0ff;
+      color: #0d0e15;
       font-family: 'Press Start 2P', cursive;
       font-size: 0.7rem;
       padding: 12px 20px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      font-weight: bold;
     }
 
     /* Уведомление о копировании */
@@ -829,13 +850,13 @@
       list-style-type: disc;
     }
 
-    .warning-box {
-      background: rgba(255, 71, 87, 0.1);
-      border: 1px dashed var(--accent);
+    .safe-box {
+      background: rgba(46, 213, 115, 0.1);
+      border: 1px dashed #2ed573;
       padding: 10px 12px;
       border-radius: 8px;
       margin-top: 10px;
-      color: #ff6b81;
+      color: #2ed573;
       font-size: 0.82rem;
     }
 
@@ -1061,16 +1082,19 @@
       <div class="modal-title">📦 Скачать Бета-версию</div>
       <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Выберите вашу платформу:</p>
       
-      <!-- Windows / ПК -->
+      <!-- Windows / ПК (2 файла) -->
       <div class="download-card">
         <div class="platform-left">
           <div class="platform-icon">💻</div>
           <div class="download-info">
             <h4>Windows (ПК)</h4>
-            <p>Сборка v0.1</p>
+            <p>Скачайте 2 файла в папку Game</p>
           </div>
         </div>
-        <button class="btn-dl trigger-error">Скачать</button>
+        <div class="dl-buttons-group">
+          <a href="https://drive.google.com/file/d/1kBm1MnG-GWfLaF3xkhEYb_jPPfpRVowE/view?usp=drive_link" target="_blank" class="btn-dl">Файл 1 (Console)</a>
+          <a href="https://drive.google.com/file/d/1kBm1MnG-GWfLaF3xkhEYb_jPPfpRVowE/view?usp=drive_link" target="_blank" class="btn-dl">Файл 2 (Game.exe)</a>
+        </div>
       </div>
 
       <!-- Android -->
@@ -1079,10 +1103,10 @@
           <div class="platform-icon">🤖</div>
           <div class="download-info">
             <h4>Android</h4>
-            <p>Мобильная версия</p>
+            <p>Скоро появится</p>
           </div>
         </div>
-        <button class="btn-dl trigger-error">Скачать</button>
+        <button class="btn-dl btn-soon trigger-soon" data-platform="Android">Скоро</button>
       </div>
 
       <!-- iOS -->
@@ -1091,10 +1115,10 @@
           <div class="platform-icon">🍏</div>
           <div class="download-info">
             <h4>iOS (iPhone)</h4>
-            <p>Мобильная версия</p>
+            <p>Скоро появится</p>
           </div>
         </div>
-        <button class="btn-dl trigger-error">Скачать</button>
+        <button class="btn-dl btn-soon trigger-soon" data-platform="iOS (iPhone)">Скоро</button>
       </div>
 
       <!-- macOS -->
@@ -1103,10 +1127,10 @@
           <div class="platform-icon">🖥️</div>
           <div class="download-info">
             <h4>macOS</h4>
-            <p>Версия для Mac</p>
+            <p>Скоро появится</p>
           </div>
         </div>
-        <button class="btn-dl trigger-error">Скачать</button>
+        <button class="btn-dl btn-soon trigger-soon" data-platform="macOS">Скоро</button>
       </div>
 
     </div>
@@ -1119,28 +1143,30 @@
       <div class="modal-title">📖 Как играть</div>
       
       <div class="instruction-body">
-        <h3>1. Как скачать игру?</h3>
-        <p>Нажмите кнопку <b>«Скачать бету»</b> на главном экране сайта и выберите свою платформу.</p>
+        <h3>1. Как правильно установить и запустить игру?</h3>
+        <p>1. Создайте на компьютере новую папку и назовите её <b>Game</b>.</p>
+        <p>2. Скачайте в эту папку оба файла: <b>Game.console.exe</b> и <b>Game.exe</b>.</p>
+        <p>3. Для запуска игры открывайте файл <b>Game</b> (он весит больше и является главным приложением)!</p>
         
-        <div class="warning-box">
-          ⚠️ <b>Предупреждение:</b> Если при скачивании появится ошибка, попробуйте позже или выберите другую платформу.
+        <div class="safe-box">
+          🛡️ <b>Безопасность:</b> Файлы полностью чистые. Если Windows выдаст защитное окно, нажмите «Подробнее» ➔ «Выполнить в любом случае».
         </div>
 
         <h3>2. Управление в игре</h3>
         <ul>
-          <li><b>На ПК:</b> Найдите главный файл <b>Tedt Game.console.exe</b> и запустите его. Используйте клавиши <b>W, A, S, D</b> для перемещения и мышь для обзора.</li>
-          <li><b>На телефонах / планшетах:</b> Используйте сенсорное управление на экране.</li>
+          <li><b>На ПК:</b> Используйте клавиши <b>W, A, S, D</b> для перемещения и мышь для обзора.</li>
+          <li><b>На телефонах:</b> Мобильная версия появится в следующих обновлениях!</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- ОКНО ОШИБКИ ПРИ НАЖАТИИ СКАЧАТЬ -->
+  <!-- ОКНО УВЕДОМЛЕНИЯ ДЛЯ МОБИЛЬНЫХ ВЕРСИЙ -->
   <div class="error-popup" id="error-popup">
     <div class="error-content">
-      <h3>⚠️ ОШИБКА СКАЧИВАНИЯ</h3>
-      <p>Не удалось скачать файл! Сервер временно недоступен или файл находится на обслуживании. Попробуйте позже.</p>
-      <button class="btn-error-close" id="close-error-btn">ОК</button>
+      <h3>📱 СКОРО НА МОБИЛЬНЫХ!</h3>
+      <p id="soon-text">Версия для этой платформы находится в разработке. Сейчас игра доступна только на ПК (Windows)!</p>
+      <button class="btn-error-close" id="close-error-btn">ПОНЯТНО</button>
     </div>
   </div>
 
@@ -1180,6 +1206,7 @@
     const downloadModal = document.getElementById('download-modal');
     const helpModal = document.getElementById('help-modal');
     const errorPopup = document.getElementById('error-popup');
+    const soonText = document.getElementById('soon-text');
     const easterEggModal = document.getElementById('easter-egg-modal');
     const toast = document.getElementById('toast');
 
@@ -1228,16 +1255,18 @@
     document.getElementById('close-download-btn').onclick = () => downloadModal.classList.remove('active');
     document.getElementById('close-help-btn').onclick = () => helpModal.classList.remove('active');
 
-    // Вызов ошибки при нажатии на любую кнопку "Скачать"
-    const triggerButtons = document.querySelectorAll('.trigger-error');
-    triggerButtons.forEach(btn => {
+    // Сообщение для недоступных платформ
+    const soonButtons = document.querySelectorAll('.trigger-soon');
+    soonButtons.forEach(btn => {
       btn.onclick = () => {
+        const platform = btn.getAttribute('data-platform');
+        soonText.textContent = `Версия для ${platform} сейчас находится в разработке. Сыграть можно на ПК (Windows)!`;
         downloadModal.classList.remove('active');
         errorPopup.classList.add('active');
       };
     });
 
-    // Закрытие окна ошибки
+    // Закрытие информационного окна
     document.getElementById('close-error-btn').onclick = () => {
       errorPopup.classList.remove('active');
     };
